@@ -2,162 +2,168 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { 
   Zap, Smartphone, ShieldCheck, Heart, Sparkles, Check, 
-  ArrowRight, IndianRupee, QrCode, Code, Users, Gift, ChevronRight, Award
+  ArrowRight, IndianRupee, QrCode, Code, Users, Gift, ChevronRight, Award, Coffee
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { formatINR } from '@/lib/utils';
 
 export default function HomePage() {
-  const [selectedAmount, setSelectedAmount] = useState<number>(50);
-  const [supporterName, setSupporterName] = useState('Rahul');
-  const [supporterMsg, setSupporterMsg] = useState('Keep building great open-source tools! ⚡');
+  const router = useRouter();
+  const [claimUsername, setClaimUsername] = useState('');
+  const [selectedAmount, setSelectedAmount] = useState<number>(150);
+  const [coffeeCount, setCoffeeCount] = useState<number>(3);
 
-  const presetAmounts = [20, 50, 100, 200, 500];
+  const handleClaim = (e: React.FormEvent) => {
+    e.preventDefault();
+    const clean = claimUsername.trim().toLowerCase().replace(/[^a-z0-9_]/g, '');
+    if (clean) {
+      router.push(`/dashboard/profile`);
+    } else {
+      router.push(`/dashboard/profile`);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-slate-50/70 flex flex-col">
+    <div className="min-h-screen bg-[#faf8f5] flex flex-col font-sans">
       <Navbar />
 
-      {/* Hero Section */}
+      {/* Hero Section (BMC Style) */}
       <section className="relative overflow-hidden pt-12 pb-20 sm:pt-20 sm:pb-28">
-        {/* Glow ambient backgrounds */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-gradient-to-tr from-orange-400/20 via-amber-300/20 to-red-400/10 blur-[100px] pointer-events-none rounded-full" />
-        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
             {/* Left Column: Hero Text */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100/80 border border-orange-200 text-orange-800 text-xs font-bold shadow-sm">
-                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-                <span>The Indian Creator Support Platform · 100% Free UPI</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100/90 text-amber-950 text-xs font-bold shadow-sm">
+                <span>☕ Indian Version of Buy Me a Coffee</span>
+                <span>·</span>
+                <span className="text-emerald-700 font-extrabold">100% Free UPI</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-950 tracking-tight leading-[1.1]">
-                Your talent deserves a little <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-amber-600 to-red-600">Fuel. ⚡</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-stone-950 tracking-tight leading-[1.12]">
+                Give your audience an easy way to say <span className="underline decoration-[#FFDD00] decoration-wavy decoration-2">thanks.</span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                A creator-support platform designed specifically for Indian developers, indie makers, students, artists and creators.
-                <strong className="text-slate-800 font-semibold"> No Stripe account required. No 5% platform fee cut. No KYC blocks.</strong> Direct UPI support straight to your bank account.
+              <p className="text-base sm:text-lg text-stone-600 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                FuelMe makes supporting creators fun and effortless. Fans in India can buy you a Chai ☕, support your open-source work ⚡, or fund your next project with ₹10, ₹50, ₹100 or any custom amount — <strong>directly via UPI with 0% platform cuts</strong>.
               </p>
 
-              {/* CTAs */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
-                <Link
-                  href="/dashboard/profile"
-                  className="w-full sm:w-auto px-7 py-4 rounded-2xl bg-gradient-to-r from-orange-500 via-amber-500 to-orange-600 hover:from-orange-600 hover:to-amber-600 text-white font-extrabold text-sm shadow-xl shadow-orange-500/25 hover:shadow-orange-500/40 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
-                >
-                  <Zap className="w-4 h-4 fill-white" />
-                  <span>Claim Your FuelMe Page (Free)</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+              {/* BMC's Signature Claim Handle Bar */}
+              <form onSubmit={handleClaim} className="pt-2 max-w-md mx-auto lg:mx-0">
+                <div className="p-1.5 bg-white rounded-full border-2 border-stone-200/90 shadow-md flex items-center justify-between gap-1 focus-within:border-amber-400 focus-within:ring-2 focus-within:ring-amber-200 transition-all">
+                  <span className="pl-4 text-xs font-black text-stone-400 select-none font-mono">
+                    fuelme.in/
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="yourname"
+                    value={claimUsername}
+                    onChange={(e) => setClaimUsername(e.target.value)}
+                    className="w-full px-1 py-2 text-xs font-bold text-stone-900 bg-transparent focus:outline-none font-mono"
+                  />
+                  <button
+                    type="submit"
+                    className="px-5 py-3 rounded-full bg-[#FFDD00] hover:bg-amber-300 text-stone-950 font-black text-xs transition-all whitespace-nowrap shadow-sm hover:scale-105 active:scale-100 cursor-pointer"
+                  >
+                    Start my page
+                  </button>
+                </div>
+                <p className="text-[11px] text-stone-500 mt-2 pl-2 text-center lg:text-left">
+                  It&apos;s free, takes 1 minute, and requires zero KYC documents.
+                </p>
+              </form>
 
-                <Link
-                  href="/kaushal"
-                  className="w-full sm:w-auto px-6 py-4 rounded-2xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-800 font-bold text-sm shadow-sm transition-all flex items-center justify-center gap-2"
-                >
-                  <span>See Live Demo (@kaushal)</span>
-                </Link>
-              </div>
-
-              {/* Highlights */}
-              <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs font-semibold text-slate-500">
+              {/* Quick stats / Highlights */}
+              <div className="pt-3 flex flex-wrap items-center justify-center lg:justify-start gap-y-2 gap-x-6 text-xs font-bold text-stone-500">
                 <div className="flex items-center gap-1.5 text-emerald-700">
-                  <Check className="w-4 h-4 text-emerald-600" />
+                  <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />
                   <span>0% Platform Commission</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-emerald-600" />
-                  <span>GPay, PhonePe, Paytm & BHIM</span>
+                  <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />
+                  <span>Google Pay, PhonePe, Paytm</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Check className="w-4 h-4 text-emerald-600" />
-                  <span>Instant ₹ T+0 Direct Settlement</span>
+                  <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />
+                  <span>Instant ₹ T+0 to Bank</span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Interactive Card Preview */}
+            {/* Right Column: Signature BMC Card Live Preview */}
             <div className="lg:col-span-5 relative">
-              <div className="relative mx-auto max-w-sm rounded-3xl bg-white p-6 shadow-2xl border border-slate-200/80">
-                {/* Badge header */}
-                <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-                  <div className="flex items-center gap-2">
-                    <img
-                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
-                      alt="Kaushal"
-                      className="w-12 h-12 rounded-xl object-cover border border-orange-200"
-                    />
-                    <div>
-                      <h3 className="font-extrabold text-slate-900 text-sm">Kaushal</h3>
-                      <p className="text-[11px] font-mono text-slate-500">@kaushal · Developer & Maker</p>
-                    </div>
+              <div className="relative mx-auto max-w-sm rounded-[2.5rem] bg-white p-6 shadow-xl border border-stone-200/90 space-y-4">
+                
+                {/* Creator Header */}
+                <div className="flex items-center gap-3 pb-3 border-b border-stone-100">
+                  <img
+                    src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80"
+                    alt="Kaushal"
+                    className="w-12 h-12 rounded-full object-cover ring-2 ring-[#FFDD00]"
+                  />
+                  <div>
+                    <h3 className="font-black text-stone-950 text-sm">Kaushal</h3>
+                    <p className="text-[11px] font-mono text-stone-500">@kaushal · Developer & Maker</p>
                   </div>
-                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-700">
-                    ⚡ Fuel Me
+                </div>
+
+                <p className="text-xs text-stone-600 leading-relaxed">
+                  If you enjoy my open-source tools and tutorials, you can buy me a Chai! Every contribution keeps the servers running. ☕🇮🇳
+                </p>
+
+                {/* BMC Signature Pill Row */}
+                <div className="p-3.5 rounded-2xl bg-[#faf8f5] border border-stone-200 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">☕</span>
+                    <span className="text-xs font-bold text-stone-400">×</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    {[1, 3, 5].map((cnt) => (
+                      <button
+                        key={cnt}
+                        type="button"
+                        onClick={() => {
+                          setCoffeeCount(cnt);
+                          setSelectedAmount(cnt * 50);
+                        }}
+                        className={`w-9 h-9 rounded-full font-black text-xs transition-all ${
+                          coffeeCount === cnt
+                            ? 'bg-[#FFDD00] text-stone-950 shadow-sm scale-105'
+                            : 'bg-white border border-stone-200 text-stone-700'
+                        }`}
+                      >
+                        {cnt}
+                      </button>
+                    ))}
+                  </div>
+                  <span className="text-xs font-black text-stone-900 bg-white px-2 py-1 rounded-full border border-stone-200">
+                    {formatINR(coffeeCount * 50)}
                   </span>
                 </div>
 
-                {/* Body message */}
-                <div className="py-4 space-y-3">
-                  <p className="text-xs text-slate-600 leading-relaxed">
-                    If you enjoy my open-source tools and projects, you can fuel my work! Every little contribution helps keep the servers running. ☕🇮🇳
-                  </p>
-
-                  {/* Preset Amount Pills */}
-                  <div className="space-y-1.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                      Choose Support Amount
-                    </span>
-                    <div className="grid grid-cols-5 gap-1.5">
-                      {presetAmounts.map((amt) => (
-                        <button
-                          key={amt}
-                          type="button"
-                          onClick={() => setSelectedAmount(amt)}
-                          className={`py-2 rounded-xl text-xs font-black transition-all ${
-                            selectedAmount === amt
-                              ? 'bg-orange-600 text-white shadow-sm'
-                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                          }`}
-                        >
-                          ₹{amt}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Supporter inputs mock */}
-                  <div className="space-y-2 pt-1 text-xs">
-                    <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700 flex justify-between items-center">
-                      <span className="text-slate-400">Supporter:</span>
-                      <span className="font-semibold">{supporterName}</span>
-                    </div>
-                    <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-slate-700 italic text-[11px]">
-                      &ldquo;{supporterMsg}&rdquo;
-                    </div>
-                  </div>
-
-                  {/* Total preview */}
-                  <div className="pt-2">
-                    <Link
-                      href="/kaushal"
-                      className="w-full py-3 px-4 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-md transition-all group"
-                    >
-                      <Zap className="w-4 h-4 text-orange-400 fill-orange-400" />
-                      <span>Support with {formatINR(selectedAmount)} via UPI</span>
-                    </Link>
-                  </div>
+                {/* Supporter note mock */}
+                <div className="p-3 rounded-2xl bg-[#faf8f5] border border-stone-200 text-xs italic text-stone-600">
+                  &ldquo;Loved your open-source script for Indian payment testing! Keep building bro 🔥&rdquo;
                 </div>
 
-                <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400">
-                  <span>Illustrative checkout preview</span>
-                  <span className="text-emerald-600 font-semibold">100% Free · NPCI Spec</span>
+                {/* Big Button Link to Demo */}
+                <Link
+                  href="/kaushal"
+                  className="w-full py-3.5 px-4 rounded-2xl bg-[#FFDD00] hover:bg-amber-300 text-stone-950 font-black text-xs flex items-center justify-center gap-2 shadow-md transition-all group"
+                >
+                  <span>Support {formatINR(selectedAmount)} via UPI</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                </Link>
+
+                <div className="pt-2 flex items-center justify-between text-[10px] text-stone-400">
+                  <span>Direct UPI Transfer</span>
+                  <span className="text-emerald-700 font-bold">0% Cut · NPCI Spec</span>
                 </div>
+
               </div>
             </div>
 
@@ -165,103 +171,66 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Comparison Section: Why FuelMe is 100% Free & Zero-Block */}
-      <section id="zero-fee" className="py-20 bg-white border-y border-slate-200">
+      {/* Comparison Section (BMC 5% vs FuelMe 0%) */}
+      <section id="zero-fee" className="py-20 bg-white border-y border-stone-200/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
-          <div className="text-center max-w-3xl mx-auto space-y-3">
-            <span className="text-xs font-bold uppercase tracking-wider text-orange-600 bg-orange-100 px-3 py-1 rounded-full">
-              Why We Built FuelMe
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-amber-900 bg-amber-100 px-3 py-1 rounded-full">
+              Why FuelMe?
             </span>
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-950 tracking-tight">
-              Designed Around How Indians Actually Pay
+            <h2 className="text-3xl font-black text-stone-950 tracking-tight">
+              Built for How Indians Actually Pay
             </h2>
-            <p className="text-sm text-slate-600 leading-relaxed">
-              International platforms force Indian creators through complicated Stripe KYC, foreign currency conversions, and high cuts. We believe independent makers should receive every single rupee they earn.
+            <p className="text-xs sm:text-sm text-stone-600">
+              International platforms force Indian creators through Stripe documentation, weekly delays, and high fees. We made it zero-middleman.
             </p>
           </div>
 
-          {/* Comparison Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             
-            {/* Card 1: Buy Me a Coffee */}
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-4">
-              <div className="space-y-1">
-                <span className="text-xs font-bold text-slate-400 uppercase">Traditional Platform</span>
-                <h3 className="text-xl font-bold text-slate-900">Buy Me a Coffee</h3>
-              </div>
+            <div className="p-6 rounded-[2rem] bg-[#faf8f5] border border-stone-200 space-y-3">
+              <span className="text-xs font-bold text-stone-400 uppercase">Original</span>
+              <h3 className="text-lg font-bold text-stone-900">Buy Me a Coffee</h3>
               <div className="text-2xl font-black text-rose-500">
-                5% Fee <span className="text-xs text-slate-500 font-normal">+ Stripe charges</span>
+                5% Platform Fee
               </div>
-              <ul className="space-y-2 text-xs text-slate-600">
-                <li className="flex items-start gap-2">
-                  <span className="text-rose-500 font-bold">✕</span>
-                  <span>Requires Stripe account with strict compliance</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-rose-500 font-bold">✕</span>
-                  <span>No native deep-linked UPI intent for PhonePe/GPay</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-rose-500 font-bold">✕</span>
-                  <span>Weekly or monthly payout holds (up to 7-14 days)</span>
-                </li>
+              <ul className="space-y-2 text-xs text-stone-600 pt-2 border-t border-stone-200">
+                <li>✕ Requires Stripe account</li>
+                <li>✕ Frequent Indian domestic card blocks</li>
+                <li>✕ 7 to 14 days payout delay</li>
               </ul>
             </div>
 
-            {/* Card 2: Standard Payment Gateways */}
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-4">
-              <div className="space-y-1">
-                <span className="text-xs font-bold text-slate-400 uppercase">Indian Gateways</span>
-                <h3 className="text-xl font-bold text-slate-900">Razorpay / Cashfree</h3>
-              </div>
+            <div className="p-6 rounded-[2rem] bg-[#faf8f5] border border-stone-200 space-y-3">
+              <span className="text-xs font-bold text-stone-400 uppercase">Payment Gateway</span>
+              <h3 className="text-lg font-bold text-stone-900">Razorpay / Cashfree</h3>
               <div className="text-2xl font-black text-amber-600">
-                2% + 18% GST <span className="text-xs text-slate-500 font-normal">per transaction</span>
+                2% + 18% GST
               </div>
-              <ul className="space-y-2 text-xs text-slate-600">
-                <li className="flex items-start gap-2">
-                  <span className="text-amber-500 font-bold">✕</span>
-                  <span>Requires registered business PAN, GSTIN, or audits</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-amber-500 font-bold">✕</span>
-                  <span>High rejection rate for individual students & hobbyists</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-amber-500 font-bold">✕</span>
-                  <span>T+2 settlement delay and risk of account freeze</span>
-                </li>
+              <ul className="space-y-2 text-xs text-stone-600 pt-2 border-t border-stone-200">
+                <li>✕ Requires business PAN & website audit</li>
+                <li>✕ Hard for students & independent hobbyists</li>
+                <li>✕ T+2 days settlement</li>
               </ul>
             </div>
 
-            {/* Card 3: FuelMe (Winner) */}
-            <div className="p-6 rounded-3xl bg-gradient-to-b from-orange-50 to-amber-50 border-2 border-orange-500 shadow-xl space-y-4 relative">
-              <div className="absolute -top-3.5 right-6 bg-gradient-to-r from-orange-600 to-amber-600 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider shadow">
-                Best For Indian Makers
+            <div className="p-6 rounded-[2rem] bg-amber-50/80 border-2 border-amber-400 space-y-3 relative shadow-md">
+              <div className="absolute -top-3 right-5 bg-stone-950 text-white text-[10px] font-black px-2.5 py-0.5 rounded-full uppercase">
+                Best For India
               </div>
-              <div className="space-y-1">
-                <span className="text-xs font-bold text-orange-600 uppercase">Zero Middleman</span>
-                <h3 className="text-xl font-black text-slate-950 flex items-center gap-1.5">
-                  <span>FuelMe</span>
-                  <Zap className="w-4 h-4 text-orange-500 fill-orange-500" />
-                </h3>
+              <span className="text-xs font-bold text-amber-800 uppercase">Direct NPCI Protocol</span>
+              <h3 className="text-lg font-black text-stone-950 flex items-center gap-1.5">
+                <span>FuelMe</span>
+                <span className="text-amber-500">⚡</span>
+              </h3>
+              <div className="text-2xl font-black text-emerald-700">
+                0% Fee · Free Forever
               </div>
-              <div className="text-2xl font-black text-emerald-600">
-                0% Commission <span className="text-xs text-slate-500 font-normal">Forever Free</span>
-              </div>
-              <ul className="space-y-2 text-xs text-slate-700 font-medium">
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <span><strong>Direct Peer-to-Peer UPI:</strong> 100% of money arrives immediately</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <span><strong>Zero KYC Hurdles:</strong> Just paste your existing UPI ID and go</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Check className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-                  <span><strong>No Account Suspensions:</strong> Money is never held in an escrow</span>
-                </li>
+              <ul className="space-y-2 text-xs text-stone-700 font-medium pt-2 border-t border-amber-200">
+                <li className="flex items-center gap-1.5 text-emerald-800 font-bold">✓ 100% directly to your bank account</li>
+                <li className="flex items-center gap-1.5">✓ No business documents or KYC delays</li>
+                <li className="flex items-center gap-1.5">✓ Instant T+0 second settlement</li>
               </ul>
             </div>
 
@@ -270,153 +239,70 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* How It Works (3 Steps) */}
-      <section id="how-it-works" className="py-20 bg-slate-50/60">
+      {/* 3 Step How It Works */}
+      <section id="how-it-works" className="py-20 bg-[#faf8f5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h2 className="text-3xl font-black text-slate-900 tracking-tight">
-              Get Started in 30 Seconds
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <h2 className="text-3xl font-black text-stone-950 tracking-tight">
+              Start Receiving Support in 3 Steps
             </h2>
-            <p className="text-sm text-slate-600">
-              No technical setup, no payment gateway approvals, no waiting.
+            <p className="text-xs text-stone-600">
+              No merchant gateway approvals or complicated code required.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-orange-100 text-orange-600 font-black flex items-center justify-center text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-[2rem] border border-stone-200 shadow-sm space-y-2.5">
+              <div className="w-8 h-8 rounded-full bg-[#FFDD00] text-stone-950 font-black text-xs flex items-center justify-center">
                 1
               </div>
-              <h3 className="font-extrabold text-slate-900 text-base">Create Your Page</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Choose your username (e.g. <code>fuelme.in/@kaushal</code>), upload an avatar, pick your fuel unit (Chai ☕ or Fuel ⚡) and enter your existing UPI ID.
+              <h4 className="font-black text-stone-900 text-base">Claim Your Page</h4>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Choose your unique URL like <code>fuelme.in/@kaushal</code> and enter your existing Google Pay, PhonePe, or Paytm UPI ID.
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 font-black flex items-center justify-center text-sm">
+            <div className="bg-white p-6 rounded-[2rem] border border-stone-200 shadow-sm space-y-2.5">
+              <div className="w-8 h-8 rounded-full bg-[#FFDD00] text-stone-950 font-black text-xs flex items-center justify-center">
                 2
               </div>
-              <h3 className="font-extrabold text-slate-900 text-base">Share Your Fuel Link</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Put your link in your GitHub README, YouTube description, Twitter/X bio, personal portfolio, or print our ready-made QR standee card.
+              <h4 className="font-black text-stone-900 text-base">Share Your Link</h4>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Add your FuelMe button to your GitHub README, personal portfolio, YouTube description, or Twitter bio.
               </p>
             </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 font-black flex items-center justify-center text-sm">
+            <div className="bg-white p-6 rounded-[2rem] border border-stone-200 shadow-sm space-y-2.5">
+              <div className="w-8 h-8 rounded-full bg-[#FFDD00] text-stone-950 font-black text-xs flex items-center justify-center">
                 3
               </div>
-              <h3 className="font-extrabold text-slate-900 text-base">Receive 100% via UPI</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Supporters tap to pay or scan the dynamic QR code with any UPI app. Funds instantly arrive in your bank account with zero cuts or delays.
+              <h4 className="font-black text-stone-900 text-base">Receive 100% via UPI</h4>
+              <p className="text-xs text-stone-600 leading-relaxed">
+                Supporters tap to pay or scan the dynamic QR code with any UPI app. Funds instantly arrive in your bank account with zero fees.
               </p>
             </div>
-
           </div>
 
         </div>
       </section>
 
-      {/* Standout Features */}
-      <section className="py-20 bg-white border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h2 className="text-3xl font-black text-slate-900 tracking-tight">
-              Features Built for Indian Makers
-            </h2>
-            <p className="text-sm text-slate-600">
-              Everything you need to turn appreciation into tangible support.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center">
-                <Smartphone className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-slate-900 text-base">1-Tap UPI Intent</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                On mobile, supporters can launch Google Pay, PhonePe, Paytm, or BHIM with a single tap. The amount and payee details are pre-filled automatically.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center">
-                <QrCode className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-slate-900 text-base">Dynamic UPI QR Codes</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Desktop visitors get a high-resolution QR code that can be scanned by any smartphone camera or UPI scanner for frictionless payments.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center">
-                <Code className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-slate-900 text-base">GitHub README Badges</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Auto-generate markdown and HTML badges for your open-source repositories to turn GitHub stars into active supporters.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center">
-                <Award className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-slate-900 text-base">Campaign Goals</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Set milestones for a new keyboard, college tuition, hosting costs, or podcast mic with a real-time progress bar.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center">
-                <Heart className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-slate-900 text-base">Supporter Wall & Messages</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Read heartfelt thank-you notes from people who find your tutorials, repos, and designs valuable.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 space-y-3">
-              <div className="w-10 h-10 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center">
-                <Sparkles className="w-5 h-5" />
-              </div>
-              <h4 className="font-bold text-slate-900 text-base">Indian Signature Units</h4>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Choose between Chai ☕, Samosa 🥟, Coffee ☕, Rocket Fuel 🚀, or Pizza 🍕 to match your creative identity.
-              </p>
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* Bottom CTA Banner */}
-      <section className="py-20 bg-gradient-to-r from-orange-600 via-amber-600 to-red-600 text-white">
+      {/* Bottom CTA */}
+      <section className="py-20 bg-stone-950 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center space-y-6">
           <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
-            Ready to get fueled by your audience?
+            Ready to start receiving support?
           </h2>
-          <p className="text-sm sm:text-base text-orange-100 max-w-xl mx-auto leading-relaxed">
-            Join the movement of Indian developers, students, and indie hackers earning directly with zero platform cuts.
+          <p className="text-xs sm:text-sm text-stone-400 max-w-md mx-auto">
+            Join Indian developers, students, and makers building on their own terms.
           </p>
           <div className="pt-2">
             <Link
               href="/dashboard/profile"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-slate-900 hover:bg-slate-100 font-extrabold text-sm shadow-2xl hover:scale-105 transition-all"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#FFDD00] text-stone-950 hover:bg-amber-300 font-black text-xs shadow-xl transition-all hover:scale-105 active:scale-100"
             >
-              <Zap className="w-4 h-4 text-orange-600 fill-orange-600" />
-              <span>Claim Your Free Page in 30 Seconds</span>
-              <ArrowRight className="w-4 h-4 text-slate-600" />
+              <span>Create My Free Creator Page</span>
+              <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -426,4 +312,3 @@ export default function HomePage() {
     </div>
   );
 }
-

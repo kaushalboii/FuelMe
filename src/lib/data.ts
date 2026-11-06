@@ -152,3 +152,4 @@ export const INITIAL_TRANSACTIONS: SupportTransaction[] = [
     paymentMode: 'direct_upi',
   },
 ];
+
