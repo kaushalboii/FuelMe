@@ -14,6 +14,7 @@ import GoalProgressBar from '@/components/GoalProgressBar';
 import UpiPaymentModal from '@/components/UpiPaymentModal';
 import { Creator, SupportTransaction } from '@/lib/types';
 import { getCreatorByUsername, getStoredTransactions } from '@/lib/store';
+import { getCreatorApi, getTransactionsApi, likeTransactionApi } from '@/lib/api';
 import { formatINR, getFuelUnitDetails, getCreatorUrl } from '@/lib/utils';
 
 export default function CreatorProfileClient() {
@@ -28,12 +29,23 @@ export default function CreatorProfileClient() {
   const [likedMap, setLikedMap] = useState<Record<string, number>>({});
   const [membershipModal, setMembershipModal] = useState<{ amount: number; tierName: string } | null>(null);
 
-  const refreshData = () => {
+  const refreshData = async () => {
     const c = getCreatorByUsername(username);
     if (c) {
       setCreator({ ...c });
       const txs = getStoredTransactions(c.username);
       setTransactions([...txs]);
+    }
+
+    try {
+      const remoteC = await getCreatorApi(username);
+      if (remoteC) {
+        setCreator({ ...remoteC });
+        const remoteTxs = await getTransactionsApi(remoteC.username);
+        setTransactions([...remoteTxs]);
+      }
+    } catch (e) {
+      // safe fallback to local
     }
   };
 
@@ -95,6 +107,7 @@ export default function CreatorProfileClient() {
       ...prev,
       [id]: (prev[id] || 0) + 1,
     }));
+    likeTransactionApi(id).catch(() => {});
   };
 
   return (

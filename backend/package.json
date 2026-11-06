@@ -1,0 +1,26 @@
+{
+  "name": "fuelme-backend",
+  "version": "1.0.0",
+  "description": "Standalone backend API for FuelMe creator support platform",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "fuelme",
+    "upi",
+    "creator-economy",
+    "buy-me-a-coffee-india"
+  ],
+  "author": "Kaushal",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "qrcode": "^1.5.4"
+  }
+}

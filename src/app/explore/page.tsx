@@ -7,6 +7,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Creator } from '@/lib/types';
 import { getStoredCreators } from '@/lib/store';
+import { getCreatorsApi } from '@/lib/api';
 import { formatINR, getFuelUnitDetails } from '@/lib/utils';
 
 export default function ExplorePage() {
@@ -16,6 +17,9 @@ export default function ExplorePage() {
 
   useEffect(() => {
     setCreators(getStoredCreators());
+    getCreatorsApi().then((data) => {
+      if (data && data.length > 0) setCreators(data);
+    }).catch(() => {});
   }, []);
 
   const categories = ['All', 'Developer', 'Open Source', 'Student', 'Indie Maker', 'Design', 'YouTube'];

@@ -10,6 +10,7 @@ import { Creator, SupportTransaction } from '@/lib/types';
 import { generateUpiQrCode, generateUpiUri, getAppSpecificUpiLinks, isValidUtr, generateTxnRef } from '@/lib/upi';
 import { formatINR, getFuelUnitDetails } from '@/lib/utils';
 import { addSupportTransaction } from '@/lib/store';
+import { addTransactionApi } from '@/lib/api';
 
 interface UpiPaymentModalProps {
   creator: Creator;
@@ -124,6 +125,7 @@ export default function UpiPaymentModal({
     };
 
     addSupportTransaction(newTx);
+    addTransactionApi(newTx).catch(() => {});
     setIsSubmitting(false);
     setStep('success');
     triggerCelebration();

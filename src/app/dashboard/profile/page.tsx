@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { 
   Save, Check, AlertCircle, ArrowLeft, Zap, Smartphone, 
-  Globe, Github, Twitter, Linkedin, Youtube, Target, RefreshCw
+  Globe, Github, Twitter, Linkedin, Youtube, Target, RefreshCw, Server, Wifi, WifiOff
 } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Creator, FuelUnit } from '@/lib/types';
 import { getCreatorByUsername, saveCreator, getLoggedInUsername, setLoggedInUsername } from '@/lib/store';
+import { getApiBaseUrl, setApiBaseUrl, checkServerHealth, saveCreatorApi } from '@/lib/api';
 import { isValidUpiId } from '@/lib/upi';
 import { formatINR } from '@/lib/utils';
 
@@ -42,6 +43,11 @@ export default function ProfileSettingsPage() {
   // Status
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Backend Server Config
+  const [serverUrl, setServerUrl] = useState('');
+  const [serverStatus, setServerStatus] = useState<'idle' | 'checking' | 'connected' | 'disconnected'>('idle');
+  const [serverMsg, setServerMsg] = useState('');
 
   useEffect(() => {
     let user = getLoggedInUsername();
@@ -76,7 +82,27 @@ export default function ProfileSettingsPage() {
         setGoalTarget(c.goal.targetAmount);
       }
     }
+
+    const currentApi = getApiBaseUrl();
+    setServerUrl(currentApi);
+    if (currentApi) {
+      checkServerHealth(currentApi).then((res) => {
+        setServerStatus(res.ok ? 'connected' : 'disconnected');
+        setServerMsg(res.message);
+      });
+    }
   }, []);
+
+  const handleTestServer = async () => {
+    setServerStatus('checking');
+    setServerMsg('Connecting to server...');
+    const res = await checkServerHealth(serverUrl);
+    setServerStatus(res.ok ? 'connected' : 'disconnected');
+    setServerMsg(res.message);
+    if (res.ok) {
+      setApiBaseUrl(serverUrl);
+    }
+  };
 
   if (!creator) return null;
 
@@ -123,6 +149,8 @@ export default function ProfileSettingsPage() {
     };
 
     saveCreator(updated);
+    saveCreatorApi(updated).catch(() => {});
+    setApiBaseUrl(serverUrl);
     setLoggedInUsername(cleanUsername);
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
@@ -438,7 +466,78 @@ export default function ProfileSettingsPage() {
             </div>
           </div>
 
-          {/* Error Message if any */}
+          {/* Backend Server Configuration (for instabox-kaushals-mini-server) */}
+          <div className="bg-white p-6 sm:p-8 rounded-[2rem] border border-stone-200/90 shadow-sm space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-stone-100">
+              <div className="flex items-center gap-2.5">
+                <div className="w-9 h-9 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-900 font-bold">
+                  <Server className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="font-black text-stone-900 text-sm">Backend Server Connection</h3>
+                  <p className="text-[11px] text-stone-500">Connect to your server (`user@instabox-kaushals-mini-server`)</p>
+                </div>
+              </div>
+
+              {/* Status Indicator */}
+              <div className="flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full border">
+                {serverStatus === 'connected' ? (
+                  <span className="text-emerald-700 bg-emerald-50 border-emerald-200 flex items-center gap-1">
+                    <Wifi className="w-3.5 h-3.5" /> Server Connected
+                  </span>
+                ) : serverStatus === 'checking' ? (
+                  <span className="text-amber-700 bg-amber-50 border-amber-200 flex items-center gap-1">
+                    <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Checking...
+                  </span>
+                ) : serverStatus === 'disconnected' ? (
+                  <span className="text-rose-700 bg-rose-50 border-rose-200 flex items-center gap-1">
+                    <WifiOff className="w-3.5 h-3.5" /> Disconnected
+                  </span>
+                ) : (
+                  <span className="text-stone-600 bg-stone-50 border-stone-200 flex items-center gap-1">
+                    <Server className="w-3.5 h-3.5 text-stone-400" /> Standalone (Local Mode)
+                  </span>
+                )}
+              </div>
+            </div>
+
+            <p className="text-xs text-stone-600 leading-relaxed">
+              FuelMe frontend is hosted on GitHub Pages. To store creator profiles and support transactions on your dedicated server, enter your server URL below:
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <div className="relative flex-1 w-full">
+                <input
+                  type="url"
+                  placeholder="e.g. http://192.168.1.100:5000 or https://api.yourdomain.com"
+                  value={serverUrl}
+                  onChange={(e) => setServerUrl(e.target.value)}
+                  className="w-full px-4 py-2.5 rounded-2xl bg-[#FAF8F5] border border-stone-200 text-xs font-mono font-medium focus:outline-none focus:ring-2 focus:ring-[#FFDD00]"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={handleTestServer}
+                className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-[#FAF8F5] hover:bg-stone-100 border border-stone-300 text-stone-800 text-xs font-black transition-all cursor-pointer whitespace-nowrap shadow-sm"
+              >
+                Test Connection
+              </button>
+            </div>
+
+            {serverMsg && (
+              <p className={`text-[11px] font-medium ${serverStatus === 'connected' ? 'text-emerald-700' : 'text-stone-500'}`}>
+                {serverMsg}
+              </p>
+            )}
+
+            <div className="p-3 rounded-2xl bg-[#FAF8F5] border border-stone-200/80 text-[11px] text-stone-600 space-y-1">
+              <p className="font-bold text-stone-800">💡 Quick Setup on your server:</p>
+              <code className="block bg-stone-900 text-stone-200 p-2 rounded-xl text-[10px] font-mono overflow-x-auto select-all">
+                cd FuelMe/backend && chmod +x deploy.sh && ./deploy.sh
+              </code>
+            </div>
+          </div>
           {errorMsg && (
             <div className="p-4 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium flex items-center gap-2">
               <AlertCircle className="w-4 h-4 flex-shrink-0" />

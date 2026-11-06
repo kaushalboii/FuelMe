@@ -1,7 +1,13 @@
 # dependencies
+node_modules/
 /node_modules
 /.pnp
 .pnp.js
+
+# backend local files
+backend/node_modules/
+backend/.env
+backend/server.log
 
 # testing
 /coverage

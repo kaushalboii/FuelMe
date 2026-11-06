@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  fuelme-api:
+    build: .
+    container_name: fuelme-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - NODE_ENV=production
+      - FRONTEND_URL=https://kaushalboii.github.io
+    volumes:
+      - fuelme-data:/app/data
+
+volumes:
+  fuelme-data:
+    driver: local
