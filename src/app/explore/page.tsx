@@ -149,7 +149,7 @@ export default function ExplorePage() {
                     href={`/${creator.username}`}
                     className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#FFDD00] hover:bg-amber-300 text-stone-950 text-xs font-black transition-all group-hover:scale-105"
                   >
-                    <span>Fuel {creator.displayName}</span>
+                    <span>Support (UPI ☕)</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>

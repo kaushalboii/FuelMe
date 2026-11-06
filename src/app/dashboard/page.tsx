@@ -11,7 +11,7 @@ import Footer from '@/components/Footer';
 import GoalProgressBar from '@/components/GoalProgressBar';
 import { Creator, SupportTransaction } from '@/lib/types';
 import { getCreatorByUsername, getStoredTransactions, getLoggedInUsername } from '@/lib/store';
-import { formatINR, getFuelUnitDetails } from '@/lib/utils';
+import { formatINR, getFuelUnitDetails, getCreatorUrl } from '@/lib/utils';
 
 export default function DashboardPage() {
   const [username, setUsername] = useState('kaushal');
@@ -42,7 +42,7 @@ export default function DashboardPage() {
   const unit = getFuelUnitDetails(creator.fuelUnit);
 
   const handleCopyLink = () => {
-    const url = `${window.location.origin}/${creator.username}`;
+    const url = getCreatorUrl(creator.username);
     navigator.clipboard.writeText(url);
     setCopiedLink(true);
     setTimeout(() => setCopiedLink(false), 2000);

@@ -11,10 +11,11 @@ import {
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import SupportWidget from '@/components/SupportWidget';
+import UpiPaymentModal from '@/components/UpiPaymentModal';
 import GoalProgressBar from '@/components/GoalProgressBar';
 import { Creator, SupportTransaction } from '@/lib/types';
 import { getCreatorByUsername, getStoredTransactions } from '@/lib/store';
-import { formatINR, getFuelUnitDetails } from '@/lib/utils';
+import { formatINR, getFuelUnitDetails, getCreatorUrl } from '@/lib/utils';
 
 export default function CreatorProfileClient() {
   const params = useParams();
@@ -26,6 +27,7 @@ export default function CreatorProfileClient() {
   const [copiedLink, setCopiedLink] = useState(false);
   const [activeTab, setActiveTab] = useState<'support' | 'membership' | 'posts'>('support');
   const [likedMap, setLikedMap] = useState<Record<string, number>>({});
+  const [membershipModal, setMembershipModal] = useState<{ amount: number; tierName: string } | null>(null);
 
   const refreshData = () => {
     const c = getCreatorByUsername(username);
@@ -75,14 +77,15 @@ export default function CreatorProfileClient() {
   const unit = getFuelUnitDetails(creator.fuelUnit);
 
   const handleShare = () => {
+    const url = getCreatorUrl(creator.username);
     if (navigator.share) {
       navigator.share({
         title: `Buy ${creator.displayName} a ${unit.name} on FuelMe`,
         text: `Support ${creator.displayName}'s work directly via UPI on FuelMe!`,
-        url: window.location.href,
+        url: url,
       }).catch(() => {});
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      navigator.clipboard.writeText(url);
       setCopiedLink(true);
       setTimeout(() => setCopiedLink(false), 2000);
     }
@@ -403,10 +406,10 @@ export default function CreatorProfileClient() {
                   </ul>
                 </div>
                 <button
-                  onClick={() => setActiveTab('support')}
-                  className="w-full py-3 rounded-2xl bg-[#FFDD00] text-stone-950 font-black text-xs hover:bg-amber-300 transition-colors"
+                  onClick={() => setMembershipModal({ amount: 99, tierName: 'Chai Club' })}
+                  className="w-full py-3 rounded-2xl bg-[#FFDD00] text-stone-950 font-black text-xs hover:bg-amber-300 transition-colors shadow-sm"
                 >
-                  Join for ₹99/mo
+                  Join for ₹99/mo (UPI)
                 </button>
               </div>
 
@@ -430,10 +433,10 @@ export default function CreatorProfileClient() {
                   </ul>
                 </div>
                 <button
-                  onClick={() => setActiveTab('support')}
-                  className="w-full py-3 rounded-2xl bg-[#FFDD00] text-stone-950 font-black text-xs hover:bg-amber-300 transition-colors"
+                  onClick={() => setMembershipModal({ amount: 299, tierName: 'Fuel Club' })}
+                  className="w-full py-3 rounded-2xl bg-[#FFDD00] text-stone-950 font-black text-xs hover:bg-amber-300 transition-colors shadow-sm"
                 >
-                  Join for ₹299/mo
+                  Join for ₹299/mo (UPI)
                 </button>
               </div>
 
@@ -454,10 +457,10 @@ export default function CreatorProfileClient() {
                   </ul>
                 </div>
                 <button
-                  onClick={() => setActiveTab('support')}
-                  className="w-full py-3 rounded-2xl bg-[#FFDD00] text-stone-950 font-black text-xs hover:bg-amber-300 transition-colors"
+                  onClick={() => setMembershipModal({ amount: 999, tierName: 'Believer VIP' })}
+                  className="w-full py-3 rounded-2xl bg-[#FFDD00] text-stone-950 font-black text-xs hover:bg-amber-300 transition-colors shadow-sm"
                 >
-                  Join for ₹999/mo
+                  Join for ₹999/mo (UPI)
                 </button>
               </div>
             </div>
@@ -494,6 +497,24 @@ export default function CreatorProfileClient() {
         )}
 
       </div>
+
+      {membershipModal && (
+        <UpiPaymentModal
+          creator={creator}
+          amount={membershipModal.amount}
+          unitsCount={1}
+          supporterName=""
+          supporterEmail=""
+          supporterMessage={`Joined ${membershipModal.tierName} 👑`}
+          isAnonymous={false}
+          isOpen={true}
+          onClose={() => setMembershipModal(null)}
+          onSuccess={() => {
+            setMembershipModal(null);
+            refreshData();
+          }}
+        />
+      )}
 
       <Footer />
     </div>

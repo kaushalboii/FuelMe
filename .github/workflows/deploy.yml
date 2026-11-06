@@ -7,8 +7,6 @@ on:
 
 permissions:
   contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: "pages"
@@ -36,7 +34,7 @@ jobs:
       - name: Add .nojekyll
         run: touch ./out/.nojekyll
 
-      # 1. Deploy directly to gh-pages branch (works with GitHub default "Deploy from a branch")
+      # Deploy directly to gh-pages branch (works with GitHub default "Deploy from a branch")
       - name: Deploy to gh-pages branch
         uses: peaceiris/actions-gh-pages@v4
         with:
@@ -44,14 +42,3 @@ jobs:
           publish_dir: ./out
           publish_branch: gh-pages
           force_orphan: true
-
-      # 2. Also prepare Pages Artifact if user enabled GitHub Actions Pages
-      - name: Upload Pages Artifact
-        continue-on-error: true
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./out
-
-      - name: Deploy to GitHub Pages (if Actions enabled)
-        continue-on-error: true
-        uses: actions/deploy-pages@v4

@@ -44,13 +44,20 @@ export default function ProfileSettingsPage() {
   const [errorMsg, setErrorMsg] = useState('');
 
   useEffect(() => {
-    const user = getLoggedInUsername();
+    let user = getLoggedInUsername();
+    if (typeof window !== 'undefined') {
+      const sp = new URLSearchParams(window.location.search);
+      const requestedUsername = sp.get('username');
+      if (requestedUsername) {
+        user = requestedUsername.toLowerCase().replace(/[^a-z0-9_]/g, '');
+      }
+    }
     setCurrentUser(user);
-    const c = getCreatorByUsername(user);
+    const c = getCreatorByUsername(user) || getCreatorByUsername('kaushal');
     if (c) {
       setCreator(c);
       setDisplayName(c.displayName);
-      setUsername(c.username);
+      setUsername(user || c.username);
       setHeadline(c.headline);
       setBio(c.bio);
       setUpiId(c.upiId);

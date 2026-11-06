@@ -14,6 +14,17 @@ export function formatINR(amount: number): string {
   }).format(amount);
 }
 
+export function getBaseUrl(): string {
+  if (typeof window === 'undefined') return 'https://kaushalboii.github.io/FuelMe';
+  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+  return `${window.location.origin}${basePath}`;
+}
+
+export function getCreatorUrl(username: string): string {
+  const clean = username.replace('@', '');
+  return `${getBaseUrl()}/${clean}/`;
+}
+
 export function getFuelUnitDetails(unit: FuelUnit) {
   switch (unit) {
     case 'chai':
@@ -31,4 +42,3 @@ export function getFuelUnitDetails(unit: FuelUnit) {
       return { emoji: '⚡', name: 'Fuel', plural: 'Fuels', verb: 'Fuel my work' };
   }
 }
-

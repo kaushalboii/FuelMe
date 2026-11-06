@@ -15,31 +15,24 @@ export async function GET(
   const creator = INITIAL_CREATORS.find((c) => c.username.toLowerCase() === username.toLowerCase());
 
   const name = creator ? creator.displayName : username;
-  const label = `Fuel ${name}`;
-  const status = `UPI 0% Fee`;
+  const label = `Buy ${name} a chai`;
+  const status = `0% Fee UPI`;
 
-  const labelWidth = Math.max(70, label.length * 7.5 + 20);
-  const statusWidth = 85;
+  const labelWidth = Math.max(90, label.length * 8 + 30);
+  const statusWidth = 80;
   const totalWidth = labelWidth + statusWidth;
 
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${totalWidth}" height="28" role="img" aria-label="${label}: ${status}">
-    <linearGradient id="b" x2="0" y2="100%">
-      <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
-      <stop offset="1" stop-opacity=".1"/>
-    </linearGradient>
     <clipPath id="a">
-      <rect width="${totalWidth}" height="28" rx="6" fill="#fff"/>
+      <rect width="${totalWidth}" height="28" rx="8" fill="#fff"/>
     </clipPath>
     <g clip-path="url(#a)">
-      <rect width="${labelWidth}" height="28" fill="#1e293b"/>
-      <rect x="${labelWidth}" width="${statusWidth}" height="28" fill="#ea580c"/>
-      <rect width="${totalWidth}" height="28" fill="url(#b)"/>
+      <rect width="${labelWidth}" height="28" fill="#FFDD00"/>
+      <rect x="${labelWidth}" width="${statusWidth}" height="28" fill="#18181b"/>
     </g>
-    <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" text-rendering="geometricPrecision" font-size="11" font-weight="bold">
-      <text aria-hidden="true" x="${labelWidth / 2}" y="19" fill="#010101" fill-opacity=".3">⚡ ${label}</text>
-      <text x="${labelWidth / 2}" y="18">⚡ ${label}</text>
-      <text aria-hidden="true" x="${labelWidth + statusWidth / 2}" y="19" fill="#010101" fill-opacity=".3">${status}</text>
-      <text x="${labelWidth + statusWidth / 2}" y="18">${status}</text>
+    <g text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, sans-serif" font-size="11" font-weight="bold">
+      <text x="${labelWidth / 2}" y="18" fill="#18181b">☕ ${label}</text>
+      <text x="${labelWidth + statusWidth / 2}" y="18" fill="#FFDD00">${status}</text>
     </g>
   </svg>`;
 

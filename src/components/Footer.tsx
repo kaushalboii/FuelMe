@@ -11,11 +11,11 @@ export default function Footer() {
           {/* Brand Col */}
           <div className="md:col-span-1 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-[#FFDD00] flex items-center justify-center text-stone-950 font-black text-lg shadow-sm">
-                ⚡
+              <div className="w-10 h-10 rounded-2xl bg-[#FFDD00] border border-amber-300 flex items-center justify-center text-stone-950 font-black text-xl shadow-sm">
+                ☕
               </div>
               <span className="text-xl font-black text-stone-950 tracking-tight">
-                Fuel<span className="text-amber-600">Me</span>
+                Fuel<span className="text-amber-500">Me</span>
               </span>
             </div>
             <p className="text-xs text-stone-500 leading-relaxed">
