@@ -9,6 +9,15 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        'floral-white': '#FAF8F5',
+        'yellow-v2': '#FFDD00',
+        'yellow-hover': '#FACC15',
+        bmc: {
+          yellow: '#FFDD00',
+          hover: '#FACC15',
+          cream: '#FAF8F5',
+          dark: '#18181b',
+        },
         fuel: {
           50: '#fff7ed',
           100: '#ffedd5',
@@ -20,25 +29,18 @@ const config: Config = {
           700: '#c2410c',
           800: '#9a3412',
           900: '#7c2d12',
-          DEFAULT: '#ff5722',
+          DEFAULT: '#FFDD00',
         },
-        chai: {
-          light: '#F5E6D3',
-          warm: '#E6A15C',
-          rich: '#A0522D',
-          dark: '#4A2511',
-        }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
       },
       boxShadow: {
-        'glow': '0 0 25px -5px rgba(249, 115, 22, 0.3)',
-        'glow-lg': '0 0 35px -5px rgba(249, 115, 22, 0.45)',
+        'bmc': '0 8px 30px rgba(0, 0, 0, 0.06)',
+        'bmc-hover': '0 14px 40px rgba(0, 0, 0, 0.1)',
       }
     },
   },
   plugins: [],
 };
 export default config;
-
