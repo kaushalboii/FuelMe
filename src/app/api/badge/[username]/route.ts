@@ -1,18 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getCreatorByUsername } from '@/lib/store';
+import { INITIAL_CREATORS } from '@/lib/data';
+
+export function generateStaticParams() {
+  return INITIAL_CREATORS.map((c) => ({
+    username: c.username,
+  }));
+}
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { username: string } }
 ) {
   const username = params.username.replace('@', '');
-  const creator = getCreatorByUsername(username);
+  const creator = INITIAL_CREATORS.find((c) => c.username.toLowerCase() === username.toLowerCase());
 
   const name = creator ? creator.displayName : username;
   const label = `Fuel ${name}`;
   const status = `UPI 0% Fee`;
 
-  // Compute text widths approximately
   const labelWidth = Math.max(70, label.length * 7.5 + 20);
   const statusWidth = 85;
   const totalWidth = labelWidth + statusWidth;
@@ -46,4 +51,3 @@ export async function GET(
     },
   });
 }
-
