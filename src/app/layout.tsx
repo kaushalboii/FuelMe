@@ -19,7 +19,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased selection:bg-[#FFDD00] selection:text-stone-900">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+      </head>
+      <body className="antialiased selection:bg-[#FFDD00] selection:text-stone-900 font-sans">
         {children}
       </body>
     </html>
