@@ -97,3 +97,4 @@ export function generateTxnRef(): string {
   const random = Math.random().toString(36).substring(2, 6).toUpperCase();
   return `FUEL${timestamp}${random}`;
 }
+

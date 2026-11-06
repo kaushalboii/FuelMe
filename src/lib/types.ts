@@ -52,3 +52,4 @@ export interface PresetAmount {
   icon: string;
   popular?: boolean;
 }
+

@@ -223,3 +223,4 @@ export default function SupportWidget({ creator, onPaymentSuccess }: SupportWidg
     </div>
   );
 }
+

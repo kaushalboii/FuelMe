@@ -239,3 +239,4 @@ export function setLoggedInUsername(username: string): void {
   if (typeof window === 'undefined') return;
   localStorage.setItem(CURRENT_USER_KEY, username.toLowerCase().replace('@', ''));
 }
+

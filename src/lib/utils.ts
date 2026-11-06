@@ -31,3 +31,4 @@ export function getFuelUnitDetails(unit: FuelUnit) {
       return { emoji: '⚡', name: 'Fuel', plural: 'Fuels', verb: 'Fuel my work' };
   }
 }
+
