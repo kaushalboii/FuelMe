@@ -96,6 +96,11 @@ You can deploy FuelMe in under 60 seconds with zero server costs:
 3. Select your `FuelMe` repository and click **Deploy**.
 4. That's it! Your custom domain or `.vercel.app` URL is live worldwide.
 
+## Development
+
+Contributions and suggestions are welcome.
+Feel free to open an issue or submit a pull request.
+
 ---
 
 ## 📄 License
