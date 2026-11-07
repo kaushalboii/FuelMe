@@ -101,6 +101,32 @@ You can deploy FuelMe in under 60 seconds with zero server costs:
 Contributions and suggestions are welcome.
 Feel free to open an issue or submit a pull request.
 
+## UPI Payment Architecture
+
+FuelMe uses UPI payment intents to help supporters send contributions directly to creators.
+
+### Payment Flow
+
+1. A supporter visits a creator's FuelMe profile.
+2. The supporter selects a contribution amount.
+3. FuelMe generates a UPI payment link containing the creator's UPI ID and payment details.
+4. The supporter chooses a compatible UPI application.
+5. The supporter reviews and authorizes the payment in their UPI application.
+6. The payment is processed through the participating banks and UPI infrastructure.
+
+### Payment Security
+
+- Supporters should verify the recipient name and amount before authorizing payments.
+- UPI PINs and banking credentials should only be entered in the authorized payment application.
+- FuelMe should never request or store a supporter's UPI PIN.
+- Payment confirmation should not be assumed solely from opening a UPI application or generating a QR code.
+
+### Payment Verification
+
+Document the actual payment verification mechanism implemented by FuelMe, including how UPI transaction references are recorded and how payment status is confirmed.
+
+
+
 ---
 
 ## 📄 License
