@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="310" height="28" role="img" aria-label="Buy Priya Sundaram a chai: 0% Fee UPI">
+    <clipPath id="a">
+      <rect width="310" height="28" rx="8" fill="#fff"/>
+    </clipPath>
+    <g clip-path="url(#a)">
+      <rect width="230" height="28" fill="#FFDD00"/>
+      <rect x="230" width="80" height="28" fill="#18181b"/>
+    </g>
+    <g text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica, sans-serif" font-size="11" font-weight="bold">
+      <text x="115" y="18" fill="#18181b">☕ Buy Priya Sundaram a chai</text>
+      <text x="270" y="18" fill="#FFDD00">0% Fee UPI</text>
+    </g>
+  </svg>
